@@ -38,7 +38,6 @@
 * **Vector-Search RAG Chat**: Interactive natural language Q&A grounded strictly in video context using **ChromaDB** & **HuggingFace** sentence-transformers (`all-MiniLM-L6-v2`).
 
 ### 📱 Full-Stack Web Application
-* 🔐 **Clerk Authentication**: Seamless, multi-provider User Authentication (Sign In, Sign Up, Session Persistence, Protected Routes).
 * 🎥 **YouTube & Local File Support**: Paste any public YouTube link or upload MP4, MP3, WAV, M4A, WebM files.
 * 📊 **Interactive Analytics Dashboard**: Overview of processed videos, completed jobs, active processing pipelines, and query statistics.
 * 💬 **Per-Video RAG Q&A**: Individual conversation history and vector isolation per video.
@@ -55,10 +54,7 @@
                   │             (Port 5173)                 │
                   └────────────────────┬────────────────────┘
                                        │
-                      ┌────────────────┴────────────────┐
-                      │    Clerk Authentication Provider│
-                      └────────────────┬────────────────┘
-                                       │ Bearer JWT Token
+                                       │ REST HTTP API
                                        ▼
                   ┌─────────────────────────────────────────┐
                   │        Express.js API Gateway           │
@@ -96,7 +92,6 @@
 | Domain | Technology / Library |
 | :--- | :--- |
 | **Frontend** | React 18 / 19, Vite 8, Tailwind CSS v4, Lucide React, Recharts, Axios, React Router v7 |
-| **Authentication** | Clerk Auth (`@clerk/clerk-react`) |
 | **Backend Gateway** | Node.js, Express.js, Mongoose, Multer |
 | **Database** | MongoDB |
 | **AI Processing Service** | Python 3.10+, FastAPI, Uvicorn, Pydantic |
@@ -114,17 +109,17 @@ AI-Video-Assistant/
 │   ├── src/
 │   │   ├── components/         # Modular Layout, UI, & Video components
 │   │   ├── context/            # React Theme context
-│   │   ├── hooks/              # Clerk & Video polling hooks
+│   │   ├── hooks/              # Custom hooks & Video polling
 │   │   ├── pages/              # Landing, Dashboard, Analyze, MyVideos, VideoDetail
-│   │   ├── services/           # Axios API Client with Clerk Bearer Token Interceptor
-│   │   └── App.jsx             # Router and Clerk Provider entry point
-│   ├── .env.local              # Client Publishable Keys
-│   └── vite.config.js          # Vite config with envPrefix ['VITE_', 'NEXT_PUBLIC_']
+│   │   ├── services/           # Axios API Client
+│   │   └── App.jsx             # Router entry point
+│   ├── .env.local              # Client Environment Variables
+│   └── vite.config.js          # Vite configuration
 │
 ├── server/                     # Express.js API Gateway
 │   ├── config/                 # MongoDB database connection
 │   ├── controllers/            # Video, Stats, Chat, & Download handlers
-│   ├── middleware/             # Auth Token verification, Multer File Uploads
+│   ├── middleware/             # Multer File Uploads & Error Handling
 │   ├── models/                 # Mongoose Schemas (Video, ChatMessage, UserProfile)
 │   ├── routes/                 # Express API routes
 │   └── server.js               # Express application entry
@@ -150,7 +145,6 @@ AI-Video-Assistant/
 * **Python** 3.10+
 * **MongoDB** (Local instance or MongoDB Atlas cluster URI)
 * **FFmpeg** installed and accessible in system `PATH`
-* **Clerk Account** (Free tier at [clerk.com](https://clerk.com))
 
 ---
 
@@ -189,10 +183,6 @@ Create `.env.local` in the **root directory**:
 # ─── MongoDB ───
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/ai-video-assistant?retryWrites=true&w=majority
 
-# ─── Clerk Authentication ───
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c2luY2VyZS1zbmFpbC05NS5jbGVyay5hY2NvdW50cy5kZXYk
-CLERK_SECRET_KEY=sk_test_jqTtRS51rw4YSyjqCbFADRuAkk8L4Jci58Ccq3odkJ
-
 # ─── AI Model APIs ───
 MISTRAL_API_KEY=your_mistral_api_key
 SARVAM_API_KEY=your_sarvam_api_key
@@ -206,15 +196,8 @@ PORT=5000
 NODE_ENV=development
 ```
 
-Create `client/.env.local`:
-
-```env
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c2luY2VyZS1zbmFpbC05NS5jbGVyay5hY2NvdW50cy5kZXYk
-VITE_CLERK_PUBLISHABLE_KEY=pk_test_c2luY2VyZS1zbmFpbC05NS5jbGVyay5hY2NvdW50cy5kZXYk
-```
-
 > [!IMPORTANT]
-> Never expose `CLERK_SECRET_KEY` or `MISTRAL_API_KEY` to client-side files or commit `.env.local` to public repositories.
+> Never expose `MISTRAL_API_KEY` to client-side files or commit `.env.local` to public repositories.
 
 ---
 
@@ -237,17 +220,17 @@ The services will launch on:
 
 ### Express API Gateway (`:5000`)
 
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/api/videos/analyze` | Submit YouTube URL or file for AI analysis | Yes |
-| `GET` | `/api/videos` | List user's videos (Paginated) | Yes |
-| `GET` | `/api/videos/:id` | Get video details, transcript, & summary | Yes |
-| `GET` | `/api/videos/:id/status` | Poll real-time processing status | Yes |
-| `DELETE`| `/api/videos/:id` | Delete video & clear ChromaDB collection | Yes |
-| `GET` | `/api/videos/stats` | Dashboard analytical counters | Yes |
-| `GET` | `/api/videos/:id/download/:type`| Export transcript, summary, or report | Yes |
-| `POST` | `/api/videos/:id/chat` | Send question to video RAG pipeline | Yes |
-| `GET` | `/api/videos/:id/chat` | Fetch chat history for video | Yes |
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/videos/analyze` | Submit YouTube URL or file for AI analysis |
+| `GET` | `/api/videos` | List user's videos (Paginated) |
+| `GET` | `/api/videos/:id` | Get video details, transcript, & summary |
+| `GET` | `/api/videos/:id/status` | Poll real-time processing status |
+| `DELETE`| `/api/videos/:id` | Delete video & clear ChromaDB collection |
+| `GET` | `/api/videos/stats` | Dashboard analytical counters |
+| `GET` | `/api/videos/:id/download/:type`| Export transcript, summary, or report |
+| `POST` | `/api/videos/:id/chat` | Send question to video RAG pipeline |
+| `GET` | `/api/videos/:id/chat` | Fetch chat history for video |
 
 ### FastAPI ML Microservice (`:8000`)
 
@@ -263,8 +246,7 @@ The services will launch on:
 
 ## 🛡 Security & Privacy
 
-* **Clerk Authentication**: All API requests are verified using Clerk Bearer JWT tokens.
-* **Per-User Isolation**: Multi-tenant data segregation in MongoDB and isolated ChromaDB collections per video (`video_<id>`).
+* **Isolated Vector Storage**: Multi-tenant data segregation in MongoDB and isolated ChromaDB collections per video (`video_<id>`).
 * **Environment Protection**: `.gitignore` strictly ignores `.env`, `.env.local`, and build artifacts.
 
 ---
