@@ -36,6 +36,35 @@
 
 ---
 
+# 📸 Screenshots
+
+## 🏠 Landing Page
+<img width="1919" height="873" alt="image" src="https://github.com/user-attachments/assets/2b496c34-522d-4622-8678-918e817b6396" />
+<img width="1919" height="535" alt="image" src="https://github.com/user-attachments/assets/378c3877-046b-46b5-992c-2b982142b8a2" />
+
+
+## 📊 Dashboard
+<img width="1919" height="866" alt="image" src="https://github.com/user-attachments/assets/e5f0bb49-c6b4-4c27-84a1-ed06dedeac45" />
+
+
+## 🎥 Video Analysis
+
+<img width="1919" height="867" alt="image" src="https://github.com/user-attachments/assets/d8bebe8d-01e8-463f-95e3-06c2e431759d" />
+<img width="1919" height="866" alt="image" src="https://github.com/user-attachments/assets/3ac4d001-dd09-4058-8709-3da5318c8b62" />
+
+
+## 📄 Video Summary & Details
+
+<img width="1919" height="870" alt="image" src="https://github.com/user-attachments/assets/0b63c644-ab49-4b80-91ab-053ca8d20409" />
+<img width="1919" height="860" alt="image" src="https://github.com/user-attachments/assets/476d79c7-6ddb-49e4-a304-d30cf31045e6" />
+
+
+## 💬 RAG AI Chat
+
+<img width="1914" height="868" alt="image" src="https://github.com/user-attachments/assets/d24d738c-53df-4359-8e9f-fad86c3605a0" />
+
+---
+
 ## 🏗 System Architecture
 
 ```
