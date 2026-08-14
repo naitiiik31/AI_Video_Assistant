@@ -1,204 +1,293 @@
 # 🎬 AI Video Assistant
 
-A production-quality **AI-powered Video Intelligence Platform** built as a full-stack application. Upload a YouTube video or local file, and the system automatically generates transcripts, summaries, action items, key decisions, open questions, and provides an interactive AI Q&A experience powered by RAG (Retrieval-Augmented Generation).
+<p align="center">
+  <img src="client/public/favicon.svg" width="90" alt="AI Video Assistant Logo" />
+</p>
 
-## 🏗 Architecture
+<h3 align="center">
+  Full-Stack AI Video Intelligence Platform & RAG Q&A Engine
+</h3>
+
+<p align="center">
+  Transform long YouTube videos and local audio/video files into actionable insights: automatic transcriptions, smart summaries, key decision tracking, action items, and interactive RAG-powered chat.
+</p>
+
+<p align="center">
+  <a href="https://github.com/naitiiik31/AI_Video_Assistant">
+    <img src="https://img.shields.io/github/stars/naitiiik31/AI_Video_Assistant?style=for-the-badge&logo=github&color=8B5CF6" alt="Stars" />
+  </a>
+  <a href="https://github.com/naitiiik31/AI_Video_Assistant">
+    <img src="https://img.shields.io/github/forks/naitiiik31/AI_Video_Assistant?style=for-the-badge&logo=github&color=6C35E8" alt="Forks" />
+  </a>
+  <a href="https://github.com/naitiiik31/AI_Video_Assistant/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/naitiiik31/AI_Video_Assistant?style=for-the-badge&color=22D3EE" alt="License" />
+  </a>
+</p>
+
+---
+
+## 🌟 Key Features
+
+### 🧠 Advanced AI & RAG Pipeline
+* **Multi-Model Transcription**: Built-in support for **OpenAI Whisper** (English) and **Sarvam AI Saaras v2.5** (Hinglish / Indian Accents).
+* **Multi-Pass Summarization**: Extracts key takeaways, structured summaries, and context-aware insights powered by **Mistral AI**.
+* **Smart Extractions**:
+  * 📋 **Action Items**: Automatically detects tasks, assignees, and target timelines.
+  * 💡 **Key Decisions**: Identifies major decisions made during meetings or lectures.
+  * ❓ **Open Questions**: Isolates unresolved topics and pending questions.
+* **Vector-Search RAG Chat**: Interactive natural language Q&A grounded strictly in video context using **ChromaDB** & **HuggingFace** sentence-transformers (`all-MiniLM-L6-v2`).
+
+### 📱 Full-Stack Web Application
+* 🔐 **Clerk Authentication**: Seamless, multi-provider User Authentication (Sign In, Sign Up, Session Persistence, Protected Routes).
+* 🎥 **YouTube & Local File Support**: Paste any public YouTube link or upload MP4, MP3, WAV, M4A, WebM files.
+* 📊 **Interactive Analytics Dashboard**: Overview of processed videos, completed jobs, active processing pipelines, and query statistics.
+* 💬 **Per-Video RAG Q&A**: Individual conversation history and vector isolation per video.
+* 📥 **Export Reports**: Download transcripts, formatted summaries, or full Markdown intelligence reports.
+* 🎨 **Modern Dark Aesthetics**: Premium UI with glassmorphism, responsive drawers, and custom micro-animations built with React 19, Vite, and Tailwind CSS.
+
+---
+
+## 🏗 System Architecture
 
 ```
-React + Vite (5173)  ──→  Express.js API Gateway (5000)  ──→  FastAPI ML Service (8000)
-       ↓                            ↓                                    ↓
-   Clerk Auth                   MongoDB                      Whisper / Sarvam / Mistral
-   Tailwind CSS                 Mongoose                     LangChain / ChromaDB
-   React Router                 Rate Limiting                HuggingFace Embeddings
+                  ┌─────────────────────────────────────────┐
+                  │          React 19 + Vite Client         │
+                  │             (Port 5173)                 │
+                  └────────────────────┬────────────────────┘
+                                       │
+                      ┌────────────────┴────────────────┐
+                      │    Clerk Authentication Provider│
+                      └────────────────┬────────────────┘
+                                       │ Bearer JWT Token
+                                       ▼
+                  ┌─────────────────────────────────────────┐
+                  │        Express.js API Gateway           │
+                  │             (Port 5000)                 │
+                  └──────────┬──────────────────┬───────────┘
+                             │                  │
+               Mongoose ORM  │                  │ REST HTTP API
+                             ▼                  ▼
+                    ┌────────────────┐  ┌──────────────────────┐
+                    │    MongoDB     │  │  FastAPI ML Service  │
+                    │   Database     │  │     (Port 8000)      │
+                    └────────────────┘  └──────────┬───────────┘
+                                                   │
+                  ┌────────────────────────────────┴────────────────┐
+                  │                                                 │
+                  ▼                                                 ▼
+      ┌─────────────────────────┐                       ┌──────────────────────┐
+      │   AI Transcription      │                       │ ChromaDB Vector DB   │
+      │  Whisper / Sarvam AI    │                       │ HuggingFace Embeddings│
+      └─────────────────────────┘                       └──────────────────────┘
+                  │                                                 │
+                  └────────────────────┬────────────────────────────┘
+                                       │
+                                       ▼
+                         ┌──────────────────────────┐
+                         │   Mistral AI Engine      │
+                         │ (Summaries, RAG & Chat)  │
+                         └──────────────────────────┘
 ```
 
-## ✨ Features
-
-### AI Pipeline
-- **Transcription**: Whisper (English) / Sarvam AI (Hinglish)
-- **Title Generation**: AI-generated semantic titles
-- **Smart Summary**: Multi-pass Mistral AI summarization
-- **Action Items Extraction**: Task, owner, deadline parsing
-- **Key Decisions**: Decision identification and extraction
-- **Open Questions**: Unresolved topic detection
-- **RAG Q&A**: Chat with your video using ChromaDB + HuggingFace embeddings
-
-### Application
-- 🔐 **Authentication**: Clerk (sign up, sign in, protected routes)
-- 🎥 **YouTube & Local Files**: Supports MP4, MP3, WAV, M4A, WebM
-- 🌐 **Multi-language**: English (Whisper) and Hinglish (Sarvam AI)
-- 📊 **Dashboard**: Real-time statistics and recent videos
-- 🔄 **Async Processing**: Job-based architecture with progress tracking
-- 💬 **AI Chat**: RAG-powered Q&A per video with persistent history
-- 📥 **Downloads**: Transcript, summary, and full analysis reports
-- 🌓 **Dark/Light Mode**: System-aware with manual toggle
-- 📱 **Responsive**: Desktop, tablet, and mobile layouts
-- 🔒 **User Isolation**: Per-user data + per-video RAG collections
+---
 
 ## 🛠 Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18, Vite, Tailwind CSS, React Router, Axios, Recharts, Lucide React |
-| Backend | Node.js, Express.js, Mongoose |
-| Auth | Clerk |
-| Database | MongoDB |
-| AI Service | Python FastAPI, OpenAI Whisper, Sarvam AI, Mistral AI |
-| AI Framework | LangChain, ChromaDB, HuggingFace sentence-transformers |
-| Embeddings | all-MiniLM-L6-v2 |
+| Domain | Technology / Library |
+| :--- | :--- |
+| **Frontend** | React 18 / 19, Vite 8, Tailwind CSS v4, Lucide React, Recharts, Axios, React Router v7 |
+| **Authentication** | Clerk Auth (`@clerk/clerk-react`) |
+| **Backend Gateway** | Node.js, Express.js, Mongoose, Multer |
+| **Database** | MongoDB |
+| **AI Processing Service** | Python 3.10+, FastAPI, Uvicorn, Pydantic |
+| **Speech Recognition** | OpenAI Whisper, Sarvam AI (`saaras:v2.5`) |
+| **LLM & RAG** | Mistral AI, LangChain, ChromaDB, HuggingFace (`sentence-transformers/all-MiniLM-L6-v2`) |
+| **Audio Processing** | FFmpeg, yt-dlp, PyDub |
 
-## 📁 Project Structure
+---
+
+## 📂 Project Directory Structure
 
 ```
 AI-Video-Assistant/
-├── client/                 # React + Vite frontend
+├── client/                     # React + Vite Frontend Application
 │   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/          # Route pages
-│   │   ├── context/        # React context (theme)
-│   │   ├── hooks/          # Custom hooks
-│   │   ├── services/       # API service layer
-│   │   └── App.jsx         # Root component with routing
-│   └── vite.config.js
-├── server/                 # Express.js API gateway
-│   ├── config/             # Database config
-│   ├── middleware/          # Auth, upload, error handling
-│   ├── models/             # Mongoose models
-│   ├── controllers/        # Route handlers
-│   ├── routes/             # API routes
-│   ├── services/           # ML service client
-│   └── server.js
-├── ml-service/             # FastAPI Python AI service
-│   ├── core/               # AI modules (preserved from original)
-│   │   ├── transcriber.py  # Whisper + Sarvam
-│   │   ├── summarizer.py   # Mistral summarization
-│   │   ├── extractor.py    # Action items, decisions, questions
-│   │   ├── rag_engine.py   # RAG chain builder
-│   │   └── vector_store.py # ChromaDB (per-video isolation)
-│   ├── utils/              # Audio processing
-│   ├── routers/            # FastAPI endpoints
-│   ├── services/           # Pipeline orchestration
-│   └── main.py             # FastAPI entry point
-├── .env.example
-├── docker-compose.yml
-└── package.json            # Root scripts
+│   │   ├── components/         # Modular Layout, UI, & Video components
+│   │   ├── context/            # React Theme context
+│   │   ├── hooks/              # Clerk & Video polling hooks
+│   │   ├── pages/              # Landing, Dashboard, Analyze, MyVideos, VideoDetail
+│   │   ├── services/           # Axios API Client with Clerk Bearer Token Interceptor
+│   │   └── App.jsx             # Router and Clerk Provider entry point
+│   ├── .env.local              # Client Publishable Keys
+│   └── vite.config.js          # Vite config with envPrefix ['VITE_', 'NEXT_PUBLIC_']
+│
+├── server/                     # Express.js API Gateway
+│   ├── config/                 # MongoDB database connection
+│   ├── controllers/            # Video, Stats, Chat, & Download handlers
+│   ├── middleware/             # Auth Token verification, Multer File Uploads
+│   ├── models/                 # Mongoose Schemas (Video, ChatMessage, UserProfile)
+│   ├── routes/                 # Express API routes
+│   └── server.js               # Express application entry
+│
+├── ml-service/                 # FastAPI Python AI Microservice
+│   ├── core/                   # Transcriber, Summarizer, Extractor, RAG Engine, ChromaDB
+│   ├── routers/                # FastAPI Endpoints (/process, /ask, /upload)
+│   ├── services/               # Pipeline Execution & Job Queue Orchestration
+│   ├── main.py                 # FastAPI service entry point
+│   └── requirements.txt        # Python Dependencies
+│
+├── .env.local                  # Environment Secrets (Git Ignored)
+├── docker-compose.yml          # Containerized deployment config
+└── package.json                # Root Concurrently Orchestrator
 ```
 
-## 🚀 Installation
+---
+
+## ⚡ Quick Start & Installation
 
 ### Prerequisites
-- **Node.js** 18+
-- **Python** 3.10+
-- **MongoDB** (local or Atlas)
-- **FFmpeg** (required for audio processing)
-- **Clerk Account** (for authentication)
+* **Node.js** v18 or higher
+* **Python** 3.10+
+* **MongoDB** (Local instance or MongoDB Atlas cluster URI)
+* **FFmpeg** installed and accessible in system `PATH`
+* **Clerk Account** (Free tier at [clerk.com](https://clerk.com))
 
-### 1. Clone & Install
+---
+
+### Step 1: Clone Repository
 
 ```bash
-# Install Node.js dependencies
+git clone https://github.com/naitiiik31/AI_Video_Assistant.git
+cd AI_Video_Assistant
+```
+
+### Step 2: Install Dependencies
+
+```bash
+# Install root orchestration tools
+npm install
+
+# Install client dependencies
 cd client && npm install
+
+# Install server dependencies
 cd ../server && npm install
-cd ..
-npm install  # Root (concurrently)
 
-# Install Python dependencies
-cd ml-service
+# Install Python ML dependencies
+cd ../ml-service
 pip install -r requirements.txt
+cd ..
 ```
 
-### 2. Configure Environment
+---
 
-```bash
-cp .env.example .env
-# Edit .env with your actual keys
+### Step 3: Configure Environment Variables
+
+Create `.env.local` in the **root directory**:
+
+```env
+# ─── MongoDB ───
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/ai-video-assistant?retryWrites=true&w=majority
+
+# ─── Clerk Authentication ───
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c2luY2VyZS1zbmFpbC05NS5jbGVyay5hY2NvdW50cy5kZXYk
+CLERK_SECRET_KEY=sk_test_jqTtRS51rw4YSyjqCbFADRuAkk8L4Jci58Ccq3odkJ
+
+# ─── AI Model APIs ───
+MISTRAL_API_KEY=your_mistral_api_key
+SARVAM_API_KEY=your_sarvam_api_key
+
+# ─── System Defaults ───
+WHISPER_MODEL=small
+SARVAM_STT_MODEL=saaras:v2.5
+ML_SERVICE_URL=http://127.0.0.1:8000
+CLIENT_URL=http://localhost:5173
+PORT=5000
+NODE_ENV=development
 ```
 
-Required keys:
-- `MONGODB_URI` — MongoDB connection string
-- `CLERK_SECRET_KEY` — From Clerk dashboard
-- `VITE_CLERK_PUBLISHABLE_KEY` — From Clerk dashboard
-- `MISTRAL_API_KEY` — From Mistral AI
-- `SARVAM_API_KEY` — For Hinglish support (optional)
+Create `client/.env.local`:
 
-### 3. Run
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c2luY2VyZS1zbmFpbC05NS5jbGVyay5hY2NvdW50cy5kZXYk
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_c2luY2VyZS1zbmFpbC05NS5jbGVyay5hY2NvdW50cy5kZXYk
+```
+
+> [!IMPORTANT]
+> Never expose `CLERK_SECRET_KEY` or `MISTRAL_API_KEY` to client-side files or commit `.env.local` to public repositories.
+
+---
+
+### Step 4: Run the Application
+
+Start all services (Client, Express Gateway, and FastAPI ML Engine) with a single command:
 
 ```bash
-# Start all 3 services
 npm run dev
-
-# Or individually:
-npm run client   # React on :5173
-npm run server   # Express on :5000
-npm run ml       # FastAPI on :8000
 ```
 
-## 🔌 API Endpoints
+The services will launch on:
+* 🌐 **Frontend App**: `http://localhost:5173`
+* 🔌 **Express API**: `http://localhost:5000`
+* ⚡ **FastAPI ML Service**: `http://127.0.0.1:8000`
 
-### Express API Gateway (port 5000)
+---
+
+## 📡 API Reference
+
+### Express API Gateway (`:5000`)
+
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :---: |
+| `POST` | `/api/videos/analyze` | Submit YouTube URL or file for AI analysis | Yes |
+| `GET` | `/api/videos` | List user's videos (Paginated) | Yes |
+| `GET` | `/api/videos/:id` | Get video details, transcript, & summary | Yes |
+| `GET` | `/api/videos/:id/status` | Poll real-time processing status | Yes |
+| `DELETE`| `/api/videos/:id` | Delete video & clear ChromaDB collection | Yes |
+| `GET` | `/api/videos/stats` | Dashboard analytical counters | Yes |
+| `GET` | `/api/videos/:id/download/:type`| Export transcript, summary, or report | Yes |
+| `POST` | `/api/videos/:id/chat` | Send question to video RAG pipeline | Yes |
+| `GET` | `/api/videos/:id/chat` | Fetch chat history for video | Yes |
+
+### FastAPI ML Microservice (`:8000`)
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/videos/analyze` | Start video analysis |
-| GET | `/api/videos` | List user's videos |
-| GET | `/api/videos/:id` | Get video details |
-| GET | `/api/videos/:id/status` | Poll processing status |
-| DELETE | `/api/videos/:id` | Delete video |
-| GET | `/api/videos/stats` | Dashboard statistics |
-| GET | `/api/videos/:id/download/:type` | Download content |
-| POST | `/api/videos/:id/chat` | Send RAG question |
-| GET | `/api/videos/:id/chat` | Get chat history |
+| :--- | :--- | :--- |
+| `GET` | `/health` | Service health status check |
+| `POST` | `/process` | Initiate Whisper / Sarvam / Mistral pipeline job |
+| `GET` | `/jobs/{job_id}`| Query status of processing job |
+| `POST` | `/upload` | Forward uploaded file for processing |
+| `POST` | `/ask` | Execute ChromaDB Vector Search + Mistral RAG |
 
-### FastAPI ML Service (port 8000)
+---
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/health` | Health check |
-| POST | `/process` | Start processing job |
-| GET | `/jobs/{job_id}` | Get job status |
-| POST | `/upload` | Upload file |
-| POST | `/ask` | RAG Q&A |
+## 🛡 Security & Privacy
 
-## 🧠 RAG Architecture
+* **Clerk Authentication**: All API requests are verified using Clerk Bearer JWT tokens.
+* **Per-User Isolation**: Multi-tenant data segregation in MongoDB and isolated ChromaDB collections per video (`video_<id>`).
+* **Environment Protection**: `.gitignore` strictly ignores `.env`, `.env.local`, and build artifacts.
 
-Each processed video gets its own isolated ChromaDB collection:
+---
 
-```
-ChromaDB
-├── collection: video_abc123  ← User A's video
-├── collection: video_def456  ← User B's video
-└── collection: video_ghi789  ← User A's second video
-```
+## 🤝 Contributing
 
-- **Embeddings**: HuggingFace `all-MiniLM-L6-v2`
-- **Chunking**: 500 chars, 50 overlap (RecursiveCharacterTextSplitter)
-- **Retrieval**: Similarity search, k=4
-- **LLM**: Mistral Small (grounded answers only)
+Contributions, issues, and feature requests are welcome!
+Feel free to check out the [Issues Page](https://github.com/naitiiik31/AI_Video_Assistant/issues).
 
-## 🐳 Docker
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git checkout -b feature/AmazingFeature`)
+5. Open a Pull Request
 
-```bash
-docker-compose up -d
-```
+---
 
-## 🔧 Troubleshooting
+## 📄 License
 
-| Issue | Solution |
-|-------|---------|
-| FFmpeg not found | Install FFmpeg and add to PATH |
-| Whisper model download slow | First run downloads the model (~500MB for "small") |
-| MongoDB connection failed | Ensure MongoDB is running on the configured URI |
-| Clerk auth errors | Verify CLERK_SECRET_KEY and VITE_CLERK_PUBLISHABLE_KEY |
-| CORS errors | Check CLIENT_URL in .env matches your frontend URL |
-| ML service unavailable | Ensure FastAPI is running on port 8000 |
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## 🚀 Future Improvements
+---
 
-- WebSocket/SSE for real-time progress (replace polling)
-- PDF report generation endpoint
-- Video timestamp alignment with transcript
-- Speaker diarization
-- Multi-language support beyond English/Hinglish
-- Redis job queue for horizontal scaling
-- Kubernetes deployment configs
-- End-to-end testing with Playwright
+<p align="center">
+  Built with ❤️ by <a href="https://github.com/naitiiik31">Naitik Patel</a>
+</p>
