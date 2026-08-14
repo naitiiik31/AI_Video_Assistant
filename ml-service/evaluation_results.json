@@ -1,0 +1,48 @@
+{
+  "stt_evaluation": [
+    {
+      "sample_id": "eval_sample_01",
+      "wer_percent": 5.43,
+      "accuracy_percent": 94.57,
+      "latency_seconds": 0.0,
+      "real_time_factor": 0.0
+    }
+  ],
+  "summarization_evaluation": [
+    {
+      "sample_id": "eval_sample_01",
+      "generated_title": "AI Video Assistant Architecture Review",
+      "rouge_1_f1": 20.18,
+      "rouge_2_f1": 3.74,
+      "rouge_l_f1": 14.68,
+      "latency_seconds": 4.829
+    }
+  ],
+  "extraction_evaluation": [
+    {
+      "sample_id": "eval_sample_01",
+      "action_items_precision": 33.33,
+      "action_items_recall": 100.0,
+      "action_items_f1": 50.0,
+      "latency_seconds": 0.873
+    }
+  ],
+  "rag_evaluation": [
+    {
+      "sample_id": "eval_sample_01",
+      "context_recall_at_k4": 100.0,
+      "answer_faithfulness_percent": 95.0,
+      "avg_query_latency_seconds": 0.57
+    }
+  ],
+  "summary_metrics": {
+    "stt_wer": 5.43,
+    "stt_accuracy": 94.57,
+    "rouge1_f1": 20.18,
+    "rouge2_f1": 3.74,
+    "rougeL_f1": 14.68,
+    "extraction_f1": 50.0,
+    "rag_context_recall": 100.0,
+    "rag_faithfulness": 95.0
+  }
+}
