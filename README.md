@@ -12,17 +12,7 @@
   Transform long YouTube videos and local audio/video files into actionable insights: automatic transcriptions, smart summaries, key decision tracking, action items, and interactive RAG-powered chat.
 </p>
 
-<p align="center">
-  <a href="https://github.com/naitiiik31/AI_Video_Assistant">
-    <img src="https://img.shields.io/github/stars/naitiiik31/AI_Video_Assistant?style=for-the-badge&logo=github&color=8B5CF6" alt="Stars" />
-  </a>
-  <a href="https://github.com/naitiiik31/AI_Video_Assistant">
-    <img src="https://img.shields.io/github/forks/naitiiik31/AI_Video_Assistant?style=for-the-badge&logo=github&color=6C35E8" alt="Forks" />
-  </a>
-  <a href="https://github.com/naitiiik31/AI_Video_Assistant/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/naitiiik31/AI_Video_Assistant?style=for-the-badge&color=22D3EE" alt="License" />
-  </a>
-</p>
+
 
 ---
 
