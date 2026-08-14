@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  # MongoDB
+  mongodb:
+    image: mongo:7.0
+    container_name: ai-video-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+  # FastAPI ML Service
+  ml-service:
+    build:
+      context: ./ml-service
+      dockerfile: Dockerfile
+    container_name: ai-video-ml
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./vector_db:/app/vector_db
+      - ./uploads:/app/uploads
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  # Express.js API Gateway
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: ai-video-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./uploads:/app/uploads
+    env_file:
+      - .env
+    environment:
+      - ML_SERVICE_URL=http://ml-service:8000
+      - MONGODB_URI=mongodb://mongodb:27017/ai-video-assistant
+    depends_on:
+      - mongodb
+      - ml-service
+    restart: unless-stopped
+
+  # React Frontend
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: ai-video-client
+    ports:
+      - "5173:5173"
+    env_file:
+      - .env
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:

@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* ─── MEDIUM-SIZED PROFESSIONAL SAAS TYPOGRAPHY SCALE ───────────────── */
+:root {
+  --font-heading: 'Outfit', 'Inter', sans-serif;
+  --font-body: 'Inter', 'Plus Jakarta Sans', sans-serif;
+
+  --bg-primary: #080B1C;
+  --bg-sidebar: #0D1028;
+  --bg-card: rgba(12, 15, 35, 0.85);
+  
+  --purple-primary: #6C35E8;
+  --purple-secondary: #7B3FF2;
+  --purple-bright: #8B5CF6;
+  --purple-glow: #9B6CFF;
+
+  --text-primary: #F5F5FA;
+  --text-secondary: #D4D5E1;
+  --text-muted: #8C8FA5;
+  --text-muted-dark: #70738A;
+
+  --cyan-accent: #22D3EE;
+  --green-success: #20D6A0;
+  --red-danger: #FF4D5A;
+  --border-subtle: rgba(255, 255, 255, 0.10);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #080B1C;
+  color: #F5F5FA;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.6);
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glass Card */
+.glass-card {
+  background: rgba(12, 15, 35, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+}
+
+/* Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, #6C35E8 0%, #8B5CF6 100%);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.6rem 1.25rem;
+  transition: all 0.2s ease;
+  border: none;
+}
+.btn-primary:hover {
+  opacity: 0.95;
+  box-shadow: 0 4px 16px rgba(108, 53, 232, 0.35);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #F5F5FA;
+  font-size: 14px;
+  border-radius: 9px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}

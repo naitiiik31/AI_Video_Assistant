@@ -1,0 +1,17 @@
+{
+  "name": "ai-video-assistant",
+  "version": "1.0.0",
+  "description": "AI Video Assistant — Full-stack MERN + FastAPI application for AI-powered video analysis",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n client,server,ml -c cyan,green,magenta \"npm run client\" \"npm run server\" \"npm run ml\"",
+    "client": "cd client && npm run dev",
+    "server": "cd server && npm run dev",
+    "ml": "cd ml-service && python -m uvicorn main:app --reload --port 8000",
+    "install:all": "cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
